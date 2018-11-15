@@ -5,57 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thsilva <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/09 14:54:03 by thsilva           #+#    #+#             */
-/*   Updated: 2018/11/09 15:24:46 by thsilva          ###   ########.fr       */
+/*   Created: 2018/11/14 21:48:49 by thsilva           #+#    #+#             */
+/*   Updated: 2018/11/14 22:06:35 by thsilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putstr(char *str)
+void	ft_putchar(char c)
 {
+	write(1, &c, 1);
+}
+
+int main(int ac, char **av)
+{
+	int array_fg[128];
 	int i;
-
-	i = 0;
-	while (str[i] != '\0')
+	
+	if (ac != 3)
 	{
-		write(1, &str[i], 1);
+		ft_putchar('\n');
+		return (0);
+	}
+	i = 0;
+	while (array_fg[i])
+	{
+		array_fg[i] = 0;
 		i++;
 	}
-}
-
-char *check_str(char *s1, char*s2)
-{
-	int 	i;
-	int 	j;
-	int		k;
-	char	*final_word;
-
 	i = 0;
-	j = 0;
-	k = 0;
-	final_word = "";
-	while (s1[i])
+	while (av[2][i])
 	{
-		while (s2[j] != s1[i] && s2[j] != '\0')
+		array_fg[(int)av[2][i]] = 1;
+		i++;
+	}
+	i = 0;
+	while (av[1][i])
+	{
+		if (array_fg[(int)av[1][i]] == 1)
+			array_fg[(int)av[1][i]] = 2;
+		i++;
+	}
+	i = 0;
+	while (av[1][i])
+	{
+		if (array_fg[(int)av[1][i]] == 2)
 		{
-			j++;
-		}
-		if (s2[j] == s1[i])
-		{
-			final_word[k] = s1[i];
-			k++;
+			ft_putchar(av[1][i]);
+			array_fg[(int)av[1][i]] = 0;
 		}
 		i++;
 	}
-	return (final_word);
-}
-
-int main(int argc, char **argv)
-{
-	if (argc != 3)
-		ft_putstr("ERROR\n");
-	else
-		ft_putstr(check_str(argv[1], argv[2]));
+	ft_putchar('\n');
 	return (0);
 }
